@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/WallnutIcon .icon">
+    <title>牢大倒计时</title>
+    <style>
+        #countdown {
+            font-size: 36px;
+            margin: 50px auto;
+            text-align: center;
+        }
+
+       
+    </style>
+</head>
+
+<body>
+    <h2 style="text-align: center;"><img src="/24.png" id="titleImage">提醒您：</h2>
+    <h2 style="text-align: center;font-size: 24px;">距离<input type="text" id="remainingDistance" placeholder="2024-06-25" style="width: 150px;font-size: 20px;" />
+        <input type="submit" value="提交"  onclick="sub()"/>只剩：</h2>
+   
+    <div id="countdown"></div>
+
+    <script>
+        
+        // 目标日期
+       
+        
+        function sub() {
+            remainingDistanceValue = document.getElementById("remainingDistance").value;
+            
+             targetDate = new Date(remainingDistanceValue).getTime();
+            // 每秒更新一次倒计时
+        const countdownInterval = setInterval(updateCountdown, 1000);
+             updateCountdown(); // 立即调用一次，避免首次渲染延迟
+        }
+
+        function updateCountdown() {
+            // 当前日期
+            const now = new Date().getTime();
+            // 剩余时间
+            const timeRemaining = targetDate - now;
+
+           
+             // 如果时间已经过去，则停止计时器
+             if (timeRemaining <= 0) {
+                clearInterval(countdownInterval);
+                document.getElementById("countdown").innerHTML = "活动已经过期辣";
+                
+            }else{
+            // 计算天数、小时、分钟和秒
+            const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+            // 显示剩余时间
+            const daysExpr = numberToExpression2(days);
+            const hoursExpr = numberToExpression(hours);
+            const minutesExpr = numberToExpression(minutes);
+            const secondsExpr = numberToExpression(seconds);
+
+
+
+                console.log(daysExpr);
+            // 显示为数学表达式形式的剩余时间
+            document.getElementById("countdown").innerHTML =
+                `<img src="${daysExpr[0]}.png" alt="${days}">
+            <img src="${daysExpr[1]}.png" alt="${days}">
+            <img src="${daysExpr[2]}.png" alt="${days}">日
+            <img src="${hoursExpr[0]}.png" alt="${hours}">
+            <img src="${hoursExpr[1]}.png" alt="${hours}">时
+            <img src="${minutesExpr[0]}.png" alt="${minutes}">
+            <img src="${minutesExpr[1]}.png" alt="${minutes}">分
+           <img src=" ${secondsExpr[0]}.png" alt="${seconds}">
+           <img src=" ${secondsExpr[1]}.png" alt="${seconds}">秒`;
+          
+         }  
+        }
+        function numberToExpression(num) {
+            if (num >= 0 && num <= 60) {
+                // 计算十位和个位
+                let tens = Math.floor(num / 10);
+                let ones = num % 10;
+
+                // 返回包含十位和个位的数组
+                return [tens, ones];
+            } else {
+                document.getElementById("countdown").innerHTML = "又出BUG辣🤣";
+            }
+        }
+        function numberToExpression2(num) {
+            if (num >= 0 ) {
+                // 计算百位，十位和个位
+                let hundreds = Math.floor(num / 100);
+                let mods=num-hundreds*100;
+                let tens = Math.floor(mods / 10);
+                let ones = num % 10;
+
+                // 返回包含十位和个位的数组
+                return [hundreds,tens, ones];
+            } else {
+                document.getElementById("countdown").innerHTML = "算错辣🤣";
+            }
+        }
+
+        // 每秒更新一次倒计时
+        const countdownInterval = setInterval(updateCountdown, 1000);
+        updateCountdown(); // 立即调用一次，避免首次渲染延迟
+    </script>
+
+</body>
+
+</html>
